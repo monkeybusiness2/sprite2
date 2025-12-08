@@ -27,8 +27,10 @@ public class PlayerMovement : MonoBehaviour
         {
            if (isGroundedBool)
             {
-                canJump = true; //restes when player hits the ground
+               canJump;
             }
+           
+           
            
             moveX = Input.GetAxis("Horizontal"); //movex is the horitzontal x axis
         }
@@ -46,9 +48,10 @@ public class PlayerMovement : MonoBehaviour
             rb.AddForce(new Vector2(0, 10), ForceMode2D.Impulse);
             
         }
-        else 
-        Debug.Log("nojump");
-
+        else
+        {
+            canJump = false;
+        }
     }
 
     public void FixedUpdate()
