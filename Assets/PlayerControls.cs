@@ -27,7 +27,7 @@ public class PlayerMovement : MonoBehaviour
         {
            if (isGroundedBool)
             {
-               canJump;
+                canJump = true; //restes when player hits the ground
             }
            
            
@@ -48,10 +48,9 @@ public class PlayerMovement : MonoBehaviour
             rb.AddForce(new Vector2(0, 10), ForceMode2D.Impulse);
             
         }
-        else
-        {
-            canJump = false;
-        }
+        
+        
+
     }
 
     public void FixedUpdate()
