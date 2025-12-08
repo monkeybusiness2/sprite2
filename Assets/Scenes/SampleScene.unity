@@ -131,7 +131,7 @@ GameObject:
   - component: {fileID: 113231583}
   - component: {fileID: 113231582}
   m_Layer: 0
-  m_Name: Square
+  m_Name: Ground
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -510,6 +510,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rb: {fileID: 1148246133}
   moveSpeed: 3
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 8
+  groundCheck: {fileID: 113231584}
+  isGroundedBool: 0
 --- !u!114 &1148246132
 MonoBehaviour:
   m_ObjectHideFlags: 0

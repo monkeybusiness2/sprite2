@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,26 +11,56 @@ public class PlayerMovement : MonoBehaviour
     float horizontalMovement;
     float verticalMovement;
     float jumpForce = 5f;
+    public LayerMask groundLayer;
+    private float moveX;
+    public Transform groundCheck;
 
+
+    [SerializeField] private bool isGroundedBool;
+    private bool canJump; 
+    
+
+    //movement variables
     void Update()
     {
-        //move left and right
-        //hitbox velocity is new time the horizontal movespeed, in the x value  
-
+        isGroundedBool = IsGrounded();
+        {
+           if (isGroundedBool)
+            {
+                canJump = true; //restes when player hits the ground
+            }
+           
+            moveX = Input.GetAxis("Horizontal"); //movex is the horitzontal x axis
+        }
     }
 
-public void Move(InputAction.CallbackContext context)
-{
-    Vector2 input = context.ReadValue<Vector2>();
-    horizontalMovement = input.x;
-}
+    public void Move(InputAction.CallbackContext context)  
+    {
+         
+        moveX = Input.GetAxis("Horizontal"); //movex is the horitzontal x axis
+    }
     public void Jump(InputAction.CallbackContext context)
     {
-        if (context.performed)
+        if (context.performed && canJump)
         {
             rb.AddForce(new Vector2(0, 10), ForceMode2D.Impulse);
+            
         }
-        Debug.Log("hey");
+        else 
+        Debug.Log("nojump");
+
     }
 
+    public void FixedUpdate()
+    {
+        rb.linearVelocity = new Vector2(moveX * moveSpeed, rb.linearVelocity.y);//velocity is euqal to horitzontal move * movespeed. and rb.velcoty does y stays or doesnt lock
+    }
+
+     private bool IsGrounded()
+    {
+        float rayLength = 0.25f; //sets the ray of the length below the player hitbox
+        Vector2 rayOrigin = new Vector2(groundCheck.transform.position.x, groundCheck.transform.position.y - 0.1f); 
+        RaycastHit2D hit = Physics2D.Raycast(rayOrigin, Vector2.down, rayLength, groundLayer);
+        return hit.collider != null;
+    }
 }
