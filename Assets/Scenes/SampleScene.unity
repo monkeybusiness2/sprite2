@@ -132,7 +132,7 @@ GameObject:
   - component: {fileID: 113231582}
   m_Layer: 3
   m_Name: Ground
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -515,6 +515,7 @@ MonoBehaviour:
     m_Bits: 8
   groundCheck: {fileID: 113231584}
   isGroundedBool: 0
+  grounded: 0
 --- !u!114 &1148246132
 MonoBehaviour:
   m_ObjectHideFlags: 0

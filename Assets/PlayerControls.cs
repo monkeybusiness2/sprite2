@@ -15,10 +15,7 @@ public class PlayerMovement : MonoBehaviour
     public LayerMask groundLayer;
     private float moveX;
     public Transform groundCheck;
-
-
-    [SerializeField] private bool isGroundedBool;
-    private bool grounded; 
+    public bool grounded; 
     
 
     //movement variables
@@ -30,14 +27,17 @@ public class PlayerMovement : MonoBehaviour
     }
     
 
-    public void Move(InputAction.CallbackContext context)  
+    public void Move(InputAction.CallbackContext context )  
     {
          
         moveX = Input.GetAxis("Horizontal"); //movex is the horitzontal x axis
     }
-    public void Jump(InputAction.CallbackContext context && grounded)
+    public void Jump(InputAction.CallbackContext context)
     {
-       
+       if (context.performed && grounded)
+        {
+               rb.AddForce(new Vector2(0, 10), ForceMode2D.Impulse);
+        }
     }
 
     public void FixedUpdate()
@@ -49,7 +49,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if(other.gameObject.CompareTag("Ground"))
         {
-            isGroundedBool = true;
+            grounded = true;
             Debug.Log("We are Grounded");
         }
     }
@@ -58,7 +58,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if(other.gameObject.CompareTag("Ground"))
         {
-            isGroundedBool = false;
+            grounded = false;
             Debug.Log("Not grounded");
         }
     }
