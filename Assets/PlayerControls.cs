@@ -45,12 +45,13 @@ public class PlayerMovement : MonoBehaviour
         if (context.performed && canJump) //if button is pressed and is able to jump 
         {
             rb.AddForce(new Vector2(0, 10), ForceMode2D.Impulse);
+            canJump = false;
         }
-        else
-        {
+        
+        /*{
             canJump = false;
             
-        }
+        }*/
     }
 
     public void FixedUpdate()
