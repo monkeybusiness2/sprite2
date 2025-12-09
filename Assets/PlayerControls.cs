@@ -18,17 +18,12 @@ public class PlayerMovement : MonoBehaviour
 
 
     [SerializeField] private bool isGroundedBool;
-    private bool canJump; 
+    private bool grounded; 
     
 
     //movement variables
     void Update()
     {
-        isGroundedBool = IsGrounded();
-        {
-            canJump = true;
-            Debug.Log("we are grounded");
-        }
         
          moveX = Input.GetAxis("Horizontal"); //movex is the horitzontal x axis
         
@@ -40,18 +35,9 @@ public class PlayerMovement : MonoBehaviour
          
         moveX = Input.GetAxis("Horizontal"); //movex is the horitzontal x axis
     }
-    public void Jump(InputAction.CallbackContext context)
+    public void Jump(InputAction.CallbackContext context && grounded)
     {
-        if (context.performed && canJump) //if button is pressed and is able to jump 
-        {
-            rb.AddForce(new Vector2(0, 10), ForceMode2D.Impulse);
-            canJump = false;
-        }
-        
-        /*{
-            canJump = false;
-            
-        }*/
+       
     }
 
     public void FixedUpdate()
@@ -59,13 +45,22 @@ public class PlayerMovement : MonoBehaviour
         rb.linearVelocity = new Vector2(moveX * moveSpeed, rb.linearVelocity.y);//velocity is euqal to horitzontal move * movespeed. and rb.velcoty does y stays or doesnt lock
     }
 
-     private bool IsGrounded()
+    private void OnCollisionEnter2D(Collision2D other) //check for other ocllision obejcts
     {
-        float rayLength = 0.25f; //sets the ray of the length below the player hitbox
-        Vector2 rayOrigin = new Vector2(groundCheck.transform.position.x, groundCheck.transform.position.y - 0.1f);  //sets a raycast orgin right below the character
-        RaycastHit2D hit = Physics2D.Raycast(rayOrigin, Vector2.down, rayLength, groundLayer);
-        return hit.collider != null;
-
-    
+        if(other.gameObject.CompareTag("Ground"))
+        {
+            isGroundedBool = true;
+            Debug.Log("We are Grounded");
+        }
     }
+
+    private void OnCollisionExit2D(Collision2D other) //check for other ocllision obejcts
+    {
+        if(other.gameObject.CompareTag("Ground"))
+        {
+            isGroundedBool = false;
+            Debug.Log("Not grounded");
+        }
+    }
+
 }
