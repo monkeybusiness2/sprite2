@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.Rendering;
 using UnityEngine.UI;
 
 public class PlayerMovement : MonoBehaviour
@@ -17,12 +16,9 @@ public class PlayerMovement : MonoBehaviour
     private float moveX;
     public Transform groundCheck;
     public bool grounded; 
-    private float coyoteTime = .2f; 
+    private float coyoteTime = .02f; 
     private float coyoteTimeCounter;
 
-    private float maxJumpHeight;
-    private float minJumpHeight;
-    private float jumpPressTime;
    
     
 
@@ -35,7 +31,7 @@ public class PlayerMovement : MonoBehaviour
         if (grounded)
         {
             coyoteTimeCounter = coyoteTime;
-            
+             Debug.Log("this is the timer" + coyoteTimeCounter);
             
             
             
@@ -43,7 +39,7 @@ public class PlayerMovement : MonoBehaviour
          else 
         {
             coyoteTimeCounter -= Time.deltaTime;
-            
+            Debug.Log("this is the timer" + coyoteTimeCounter);
         }
         
        
@@ -59,9 +55,9 @@ public class PlayerMovement : MonoBehaviour
     }
     public void Jump(InputAction.CallbackContext context)
     {
-       if (context.performed && coyoteTimeCounter > coyoteTime)
+       if (context.performed && coyoteTimeCounter > 0)
         {
-               rb.AddForce(new Vector2(0, 10), ForceMode2D.Impulse );
+               rb.AddForce(new Vector2(0, 10), ForceMode2D.Impulse);
         }
     }
 
@@ -75,9 +71,6 @@ public class PlayerMovement : MonoBehaviour
         if(other.gameObject.CompareTag("Ground"))
         {
             grounded = true;
-           
-           
-            
         }
     }
 
@@ -86,7 +79,6 @@ public class PlayerMovement : MonoBehaviour
         if(other.gameObject.CompareTag("Ground"))
         {
             grounded = false;
-            
         }
     }
 
