@@ -5,10 +5,9 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
-public class PlayerInput : MonoBehaviour
+public class PlayerMovement : MonoBehaviour
 {
     public Rigidbody2D rb;
-    private PlayerInput playerActionControls;
     public float moveSpeed = 5f;
     float horizontalMovement;
     float verticalMovement;
@@ -26,35 +25,48 @@ public class PlayerInput : MonoBehaviour
     // i want the character to have a max jump
     private float jumpheld; 
     //mesures the amount of time the jump has been held
-    private bool isJumping;
     private float apexModifier; 
     private float jumpBuffer;
-    private float acceleration;
+    private float acceleration; 
+    
+
+   
+  
 
     //movement variables
-    void Start()
-    {
-        
-
-    }
     void Update()
-    {    
+    {
+         
+    
+        
          moveX = Input.GetAxis("Horizontal");//movex is the horitzontal x axis
 
         if (grounded)
         {
             coyoteTimeCounter = coyoteTime;
             //Debug.Log("this is the timer" + coyoteTimeCounter);
+          
+            
             
         }
          else 
         {
             coyoteTimeCounter -= Time.deltaTime;
-            
+
             Debug.Log(jumpheld);
-            
            // Debug.Log("this is the timer" + coyoteTimeCounter);
         }
+        
+        if (Input.GetButtonDown("Jump"))
+        {
+            jumpheld -= Time.deltaTime;
+        }   
+        if (Input.GetButtonUp("Jump"))
+        {
+            jumpheld = 0;
+        }
+    
+        
     }
     
 
@@ -64,11 +76,11 @@ public class PlayerInput : MonoBehaviour
     }
     public void Jump(InputAction.CallbackContext context)
     {
-        
-       if (context.performed && coyoteTimeCounter > 0)
+       if (context.performed && coyoteTimeCounter > -.2)
         {
-           jumpheld -= Time.deltaTime;
-           rb.AddForce(new Vector2(0, 10), ForceMode2D.Impulse);
+         
+            rb.AddForce(new Vector2(0, 10), ForceMode2D.Impulse);
+        
         }
     }
 
@@ -93,5 +105,5 @@ public class PlayerInput : MonoBehaviour
         }
     }
 
-  
+    
 }
