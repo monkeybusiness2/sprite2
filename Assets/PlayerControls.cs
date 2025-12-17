@@ -5,9 +5,10 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
-public class PlayerMovement : MonoBehaviour
+public class PlayerInput : MonoBehaviour
 {
     public Rigidbody2D rb;
+    private PlayerInput playerActionControls;
     public float moveSpeed = 5f;
     float horizontalMovement;
     float verticalMovement;
@@ -16,48 +17,58 @@ public class PlayerMovement : MonoBehaviour
     private float moveX;
     public Transform groundCheck;
     public bool grounded; 
-    private float coyoteTime = .02f; 
+    private float coyoteTime = .2f; 
     private float coyoteTimeCounter;
-
-   
     
+    private float minJump = 2f; 
+    // I want the the character to have a minnum short hop
+    private float maxJump = 10f;
+    // i want the character to have a max jump
+    private float jumpheld; 
+    //mesures the amount of time the jump has been held
+    private bool isJumping;
+    private float apexModifier; 
+    private float jumpBuffer;
+    private float acceleration;
 
     //movement variables
-    void Update()
+    void Start()
     {
         
+
+    }
+    void Update()
+    {    
          moveX = Input.GetAxis("Horizontal");//movex is the horitzontal x axis
 
         if (grounded)
         {
             coyoteTimeCounter = coyoteTime;
-             Debug.Log("this is the timer" + coyoteTimeCounter);
-            
-            
+            //Debug.Log("this is the timer" + coyoteTimeCounter);
             
         }
          else 
         {
             coyoteTimeCounter -= Time.deltaTime;
-            Debug.Log("this is the timer" + coyoteTimeCounter);
+            
+            Debug.Log(jumpheld);
+            
+           // Debug.Log("this is the timer" + coyoteTimeCounter);
         }
-        
-       
-
-        
     }
     
 
     public void Move(InputAction.CallbackContext context )  
-    {
-         
+    { 
         moveX = Input.GetAxis("Horizontal"); //movex is the horitzontal x axis
     }
     public void Jump(InputAction.CallbackContext context)
     {
+        
        if (context.performed && coyoteTimeCounter > 0)
         {
-               rb.AddForce(new Vector2(0, 10), ForceMode2D.Impulse);
+           jumpheld -= Time.deltaTime;
+           rb.AddForce(new Vector2(0, 10), ForceMode2D.Impulse);
         }
     }
 
@@ -82,5 +93,5 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    
+  
 }
