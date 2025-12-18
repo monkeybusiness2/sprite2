@@ -57,13 +57,16 @@ public class PlayerMovement : MonoBehaviour
            // Debug.Log("this is the timer" + coyoteTimeCounter);
         }
         
-        if (Input.GetButtonDown("Jump"))
+        if (Input.GetButtonDown("Jump") && coyoteTimeCounter > -.2)
         {
             jumpheld -= Time.deltaTime;
+            rb.AddForce(new Vector2(0, 10), ForceMode2D.Impulse);
+        
         }   
         if (Input.GetButtonUp("Jump"))
         {
             jumpheld = 0;
+            
         }
     
         
@@ -74,15 +77,7 @@ public class PlayerMovement : MonoBehaviour
     { 
         moveX = Input.GetAxis("Horizontal"); //movex is the horitzontal x axis
     }
-    public void Jump(InputAction.CallbackContext context)
-    {
-       if (context.performed && coyoteTimeCounter > -.2)
-        {
-         
-            rb.AddForce(new Vector2(0, 10), ForceMode2D.Impulse);
-        
-        }
-    }
+   
 
     public void FixedUpdate()
     {
